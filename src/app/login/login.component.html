@@ -1,0 +1,13 @@
+<form (ngSubmit)="onSubmit()">
+  <label for="username">Username:</label>
+  <input type="text" id="Username" [(ngModel)]="loginData.username" name="username">
+
+  <label for="password">Password:</label>
+  <input type="password" id="password" [(ngModel)]="loginData.password" name="password">
+  
+  <button type="submit">Login</button>
+  <button type="button" (click)="resetPassword()">Forget Password</button>
+  <button type="button" routerLink="/register">NewUser</button>
+
+</form>
+

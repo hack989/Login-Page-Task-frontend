@@ -1,0 +1,110 @@
+<form (ngSubmit)="onRegister()" #registerForm="ngForm">
+    <!-- Username -->
+    <label for="username">Username:</label>
+    <input type="text" 
+           id="username" 
+           [(ngModel)]="registerData.username" 
+           name="username" 
+           required 
+           minlength="4"  
+           #username="ngModel">
+    <div *ngIf="username.invalid && (username.dirty || username.touched)">
+        <div *ngIf="username.errors?.['required']">Username is required.</div>
+        <div *ngIf="username.errors?.['minlength']">Username must be more than 4 characters.</div>
+    </div>
+
+    <br>
+    
+   <!-- Password -->
+<label for="password">Password:</label>
+<div class="password-container">
+    <input type="{{showPassword ? 'text' : 'password'}}" 
+           id="password" 
+           [(ngModel)]="registerData.password" 
+           name="password" 
+           required 
+           minlength="6"  
+           maxlength="8"  
+           #password="ngModel">
+    <i (click)="togglePasswordVisibility()" 
+       class="fa" 
+       [class.fa-eye]="!showPassword" 
+       [class.fa-eye-slash]="showPassword"></i>
+</div>
+<div *ngIf="password.invalid && (password.dirty || password.touched)">
+    <div *ngIf="password.errors?.['required']">Password is required.</div>
+    <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters.</div>
+    <div *ngIf="password.errors?.['maxlength']">Password cannot exceed 8 characters.</div>
+</div>
+
+<br>
+
+<!-- Confirm Password -->
+<label for="confirmPassword">Confirm Password:</label>
+<div class="password-container">
+    <input type="{{showConfirmPassword ? 'text' : 'password'}}" 
+           id="confirmPassword" 
+           [(ngModel)]="registerData.confirmPassword" 
+           name="confirmPassword" 
+           required
+           minlength="6"  
+           maxlength="8" 
+           [pattern]="registerData.password"  
+           #confirmPassword="ngModel">
+    <i (click)="toggleConfirmPasswordVisibility()" 
+       class="fa" 
+       [class.fa-eye]="!showConfirmPassword" 
+       [class.fa-eye-slash]="showConfirmPassword"></i>
+</div>
+<div *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+    <div *ngIf="confirmPassword.errors?.['required']">Confirmation is required.</div>
+    <div *ngIf="confirmPassword.errors?.['pattern']">Passwords do not match.</div>
+    <div *ngIf="confirmPassword.errors?.['minlength']">Confirmation password must be at least 6 characters.</div>
+    <div *ngIf="confirmPassword.errors?.['maxlength']">Confirmation password cannot exceed 8 characters.</div>
+</div>
+
+
+    <br>
+    
+    <!-- Email -->
+    <label for="email">Email:</label>
+    <input type="email" 
+           id="email" 
+           [(ngModel)]="registerData.email" 
+           name="email" 
+           required
+           email  
+           #email="ngModel">
+    <div *ngIf="email.invalid && (email.dirty || email.touched)">
+        <div *ngIf="email.errors?.['required']">Email is required.</div>
+        <div *ngIf="email.errors?.['email']">Please enter a valid email address.</div>
+    </div>
+
+    <br>
+    
+    <!-- Role -->
+    <label for="role">Role:</label>
+    <select id="role" 
+            [(ngModel)]="registerData.role" 
+            name="role" 
+            required 
+            #role="ngModel">
+        <option value="Admin">Admin</option>
+        <option value="Normal">Normal</option>
+    </select>
+    <div *ngIf="role.invalid && (role.dirty || role.touched)">
+        <div *ngIf="role.errors?.['required']">Role is required.</div>
+    </div>
+
+    <br>
+
+    <!-- Error Message under the Register Button -->
+    <div *ngIf="registerForm.invalid && registerForm.submitted" style="color: red;">
+        <div *ngIf="username.errors?.['required']">Please enter a username.</div>
+        <div *ngIf="password.errors?.['minlength']">Password length must be 6 to 8 characters.</div>
+        <div *ngIf="confirmPassword.errors?.['pattern']">Passwords do not match.</div>
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Register</button>
+    <button type="button" routerLink="/login">Existing user</button>
+</form>
